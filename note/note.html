@@ -1,0 +1,80 @@
+ 1、重置样式 cssreset.com
+
+ 2、ESLint js语法检查
+
+ 3、stylus less sass
+
+ 4、注意饿了么设计稿高度，字体大小等实际使用时减一半
+
+ 5、css书写规范：
+	 布局：display
+	 影响重绘的：width height
+	 其他的可继承的：font-size color
+
+ 6、移动端1像素问题
+ 	 设备像素比：
+		http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
+		http://www.cnblogs.com/moqiutao/p/6818235.html
+		http://www.jb51.net/article/54848.htm
+	 判断设备像素比
+	 @media(min-device-pixel-ratio:1.5),(-webkit-min-device-pixel-ratio:1.5){
+			#box{
+				background: red;
+			}
+		}
+	 if(window.devicePixelRatio>=2){
+		 oBox.style.background='red';
+	 }
+
+	 pc端设计1像素；iPhone6变成2像素，不是真正1px
+	 .tab{ border-bottom: 1px solid rgba(7,17,27,0.1) }
+	 造成边框变粗的原因：
+	 	因为css中的1px并不等于移动设备的1px，
+	 	这些由于不同的手机有不同的像素密度。
+	 	在window对象中有一个devicePixelRatio属性，
+	 	他可以反应css中的像素与设备的像素比。
+		devicePixelRatio的官方的定义为：
+			设备物理像素和设备独立像素的比例，
+			也就是 devicePixelRatio = 物理像素 / 独立像素。
+		这里的独立像素就可以理解为我们前端的px
+
+	 真正的做法：
+	 	 好文章：http://www.jianshu.com/p/7e63f5a32636
+		 用伪类做出边框，再用缩放来改变比例改变大小
+
+
+		 
+ 7、手机实时访问
+	 localhost:8080
+	 localhost换成本机IP  ipconfig
+	 再用草料二维码扫描
+	 前提是同一个网
+
+ 8、Vue-cli单文件组件引入less、sass、css样式的不同方法
+	 http://blog.csdn.net/itKingOne/article/details/74729508
+
+ 9、vue-cli项目如何使用vue-resource获取本地的json数据（模拟服务端返回数据）
+	 网址：http://blog.csdn.net/weiweismile123/article/details/70210934
+
+ 10、注意理解一个概念---关于父子组件通信的时候（app组件和header组件）
+	 父组件的数据是resource异步获取来的，起初子组件拿到的数据为空，
+	 这时候，子组件进行seller.supports[0].description等操作是报错的,
+	 因为seller数据为空，不可能有数组之类的操作
+
+ 11、父级font-size:0;去掉莫名空白，空白是因为空白字符；
+
+ 12、es7 es8
+
+ 13、张鑫旭博客
+ 	http://www.zhangxinxu.com/wordpress/2017/07/html5-canvas-image-compress-upload/
+
+ 14、组件资源的调用
+ 	 组件内部的资源要放到组件所在文件夹，方便组件的调用和维护；
+ 	 这就要求组件要单独建文件夹；
+ 	 所有组件公共的资源要建在公共的文件夹内，
+ 	 全局样式要在入口文件main.js中模块引入
+
+ 15、line-height属性的细节---一般在样式中设置line-height:1
+ 	单位无符号的，动态计算行高，取子元素字体大小*倍数；
+ 	单位有符号的，静态计算行高，取父元素字体大小*倍数；
+ 	很好的博文：https://www.zhihu.com/question/20394889
