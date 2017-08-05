@@ -1,3 +1,13 @@
+ 
+ 时间安排：
+ 	8.7-8.13 完成商品列表组件组开发工作
+ 	8.14-8.15 完成商品详情组件组开发工作
+ 	8.16 完成ratings评价组件组的开发工作
+ 	8.17 完成商家详情组件组的开发工作
+ 	8.18-8.19 完成项目的编译打包、项目总结、项目升级工作
+ 	8.20 项目备用时间
+
+--------------------------------------
  1、重置样式 cssreset.com
 
  2、ESLint js语法检查
@@ -61,7 +71,7 @@
 	 这时候，子组件进行seller.supports[0].description等操作是报错的,
 	 因为seller数据为空，不可能有数组之类的操作
 
- 11、父级font-size:0;去掉莫名空白，空白是因为空白字符；
+ 11、父级font-size:0;去掉莫名空白，空白是因为span两个挨着存在空白字符；
 
  12、es7 es8
 
@@ -78,3 +88,19 @@
  	单位无符号的，动态计算行高，取子元素字体大小*倍数；
  	单位有符号的，静态计算行高，取父元素字体大小*倍数；
  	很好的博文：https://www.zhihu.com/question/20394889
+
+ 16、模糊效果
+ 	filter:blur(10px)
+ 	注意父级用overflow:hidden去掉多余阴影
+ 	另一种模糊效果写法（只是用ios）
+ 	backdrop-filter:blur(10px)
+
+ 17、sticky footer 布局
+ 	http://www.w3cplus.com/css3/css-secrets/sticky-footers.html
+ 18、评分组件
+ 19、flex布局
+ 	阮一峰flex布局教程
+ 	vue-loader编译时Postcss工具自动处理兼容性
+ 	Postcss工具根据 can i use(http://caniuse.com)官网写代码保证兼容 性
+
+
