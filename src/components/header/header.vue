@@ -32,17 +32,17 @@
 		</div>
 		<!-- 背景图片 -->
 		<div class="background">
-			<img :src="seller.avatar" alt="" width="100%" height="auto" />
+			 <img :src="seller.avatar" alt="" width="100%" height="auto" />
 		</div>
 		<!-- 详情弹出层 -->
 		<div class="detail" v-show="detailShow">
 			<div class="detail-wapper clearfix">
-				<div class="detail-mian">
-					
+				<div class="detail-main">
+					<h1 class="detail-main-title">{{seller.name}}</h1>
 				</div>
 			</div>
 			<div class="detail-close">
-				<span>&times;</span>
+				 <i class="iconfont icon-chahao" @click="hiddenDetail()"></i>
 			</div>
 		</div>
 	</div>
@@ -59,6 +59,9 @@ export default {
 	methods: {
 		showDetail () {
 			this.detailShow = true;
+		},
+		hiddenDetail () {
+			this.detailShow = false;
 		}
 	},
 	created () {
@@ -165,7 +168,7 @@ export default {
 		 	 font-size: 10px;
 		 	 line-height: 12px;
 		 }
-	
+
 	/* 公告 */
 		.bulletin-wapper{
 			position: relative;
@@ -221,10 +224,28 @@ export default {
 	}
 	.detail-wapper{
 		min-height: 100%;
+		overflow: hidden;
 	}
 	.detail-wapper .detail-main{
 		margin-top:64px;
-		padding-bottom: 64px;
+		padding-bottom: 96px;
+	}
+	.detail-main-title{
+		margin-bottom: 16px;
+		line-height: 16px;
+		font-size: 16px;
+		font-weight: 700;
+		text-align: center;
+	}
+	.detail-close{
+		height: 32px;
+		line-height: 32px;
+		margin-top: -64px;
+		text-align: center;
+	}
+	.detail-close i{
+		color: #fff;
+		font-size: 32px;
 	}
 
 	@media(min-device-pixel-ratio:1.5),(-webkit-min-device-pixel-ratio:1.5){
