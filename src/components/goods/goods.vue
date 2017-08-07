@@ -1,12 +1,20 @@
 <template>
-    <div>
-     <h3>我是商品展示页</h3>
+    <div class="goods">
+    	<div class="menu-wapper">
+    		
+    	</div>
+    	<div class="foods-wapper">
+    		
+    	</div>
     </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
     export default{};
 </script>
 
-<style rel="stylesheet" scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+.goods {
+  
+}
 </style>

@@ -8,108 +8,113 @@
  	8.20 项目备用时间
 
 --------------------------------------
- 1、重置样式 cssreset.com
+header组件
+	 1、重置样式 cssreset.com
 
- 2、ESLint js语法检查
+	 2、ESLint js语法检查
 
- 3、stylus less sass
+	 3、stylus less sass
 
- 4、注意饿了么设计稿高度，字体大小等实际使用时减一半
+	 4、注意饿了么设计稿高度，字体大小等实际使用时减一半
 
- 5、css书写规范：
-	 布局：display
-	 影响重绘的：width height
-	 其他的可继承的：font-size color
+	 5、css书写规范：
+		 布局：display
+		 影响重绘的：width height
+		 其他的可继承的：font-size color
 
- 6、移动端1像素问题
- 	 设备像素比：
-		http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
-		http://www.cnblogs.com/moqiutao/p/6818235.html
-		http://www.jb51.net/article/54848.htm
-	 判断设备像素比
-	 @media(min-device-pixel-ratio:1.5),(-webkit-min-device-pixel-ratio:1.5){
-			#box{
-				background: red;
+	 6、移动端1像素问题
+	 	 设备像素比：
+			http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
+			http://www.cnblogs.com/moqiutao/p/6818235.html
+			http://www.jb51.net/article/54848.htm
+		 判断设备像素比
+		 @media(min-device-pixel-ratio:1.5),(-webkit-min-device-pixel-ratio:1.5){
+				#box{
+					background: red;
+				}
 			}
-		}
-	 if(window.devicePixelRatio>=2){
-		 oBox.style.background='red';
-	 }
+		 if(window.devicePixelRatio>=2){
+			 oBox.style.background='red';
+		 }
 
-	 pc端设计1像素；iPhone6变成2像素，不是真正1px
-	 .tab{ border-bottom: 1px solid rgba(7,17,27,0.1) }
-	 造成边框变粗的原因：
-	 	因为css中的1px并不等于移动设备的1px，
-	 	这些由于不同的手机有不同的像素密度。
-	 	在window对象中有一个devicePixelRatio属性，
-	 	他可以反应css中的像素与设备的像素比。
-		devicePixelRatio的官方的定义为：
-			设备物理像素和设备独立像素的比例，
-			也就是 devicePixelRatio = 物理像素 / 独立像素。
-		这里的独立像素就可以理解为我们前端的px
+		 pc端设计1像素；iPhone6变成2像素，不是真正1px
+		 .tab{ border-bottom: 1px solid rgba(7,17,27,0.1) }
+		 造成边框变粗的原因：
+		 	因为css中的1px并不等于移动设备的1px，
+		 	这些由于不同的手机有不同的像素密度。
+		 	在window对象中有一个devicePixelRatio属性，
+		 	他可以反应css中的像素与设备的像素比。
+			devicePixelRatio的官方的定义为：
+				设备物理像素和设备独立像素的比例，
+				也就是 devicePixelRatio = 物理像素 / 独立像素。
+			这里的独立像素就可以理解为我们前端的px
 
-	 真正的做法：
-	 	 好文章：http://www.jianshu.com/p/7e63f5a32636
-		 用伪类做出边框，再用缩放来改变比例改变大小
+		 真正的做法：
+		 	 好文章：http://www.jianshu.com/p/7e63f5a32636
+			 用伪类做出边框，再用缩放来改变比例改变大小
+	 
+	 7、手机实时访问
+		 localhost:8080
+		 localhost换成本机IP  ipconfig
+		 再用草料二维码扫描
+		 前提是同一个网
 
+	 8、Vue-cli单文件组件引入less、sass、css样式的不同方法
+		 http://blog.csdn.net/itKingOne/article/details/74729508
 
-		 
- 7、手机实时访问
-	 localhost:8080
-	 localhost换成本机IP  ipconfig
-	 再用草料二维码扫描
-	 前提是同一个网
+	 9、vue-cli项目如何使用vue-resource获取本地的json数据（模拟服务端返回数据）
+		 网址：http://blog.csdn.net/weiweismile123/article/details/70210934
 
- 8、Vue-cli单文件组件引入less、sass、css样式的不同方法
-	 http://blog.csdn.net/itKingOne/article/details/74729508
+	 10、注意理解一个概念---关于父子组件通信的时候（app组件和header组件）
+		 父组件的数据是resource异步获取来的，起初子组件拿到的数据为空，
+		 这时候，子组件进行seller.supports[0].description等操作是报错的,
+		 因为seller数据为空，不可能有数组之类的操作
 
- 9、vue-cli项目如何使用vue-resource获取本地的json数据（模拟服务端返回数据）
-	 网址：http://blog.csdn.net/weiweismile123/article/details/70210934
+	 11、父级font-size:0;去掉莫名空白，空白是因为span两个挨着存在空白字符；
 
- 10、注意理解一个概念---关于父子组件通信的时候（app组件和header组件）
-	 父组件的数据是resource异步获取来的，起初子组件拿到的数据为空，
-	 这时候，子组件进行seller.supports[0].description等操作是报错的,
-	 因为seller数据为空，不可能有数组之类的操作
+	 12、es7 es8
 
- 11、父级font-size:0;去掉莫名空白，空白是因为span两个挨着存在空白字符；
+	 13、张鑫旭博客
+	 	http://www.zhangxinxu.com/wordpress/2017/07/html5-canvas-image-compress-upload/
 
- 12、es7 es8
+	 14、组件资源的调用
+	 	 组件内部的资源要放到组件所在文件夹，方便组件的调用和维护；
+	 	 这就要求组件要单独建文件夹；
+	 	 所有组件公共的资源要建在公共的文件夹内，
+	 	 全局样式要在入口文件main.js中模块引入
 
- 13、张鑫旭博客
- 	http://www.zhangxinxu.com/wordpress/2017/07/html5-canvas-image-compress-upload/
+	 15、line-height属性的细节---一般在样式中设置line-height:1
+		 	单位无符号的，动态计算行高，取子元素字体大小*倍数；
+		 	单位有符号的，静态计算行高，取父元素字体大小*倍数；
+		 	很好的博文：https://www.zhihu.com/question/20394889
 
- 14、组件资源的调用
- 	 组件内部的资源要放到组件所在文件夹，方便组件的调用和维护；
- 	 这就要求组件要单独建文件夹；
- 	 所有组件公共的资源要建在公共的文件夹内，
- 	 全局样式要在入口文件main.js中模块引入
+	 16、模糊效果
+		 	图片模糊filter:blur(10px)
+		 	注意父级用overflow:hidden去掉多余阴影
+		 	另一种模糊效果写法（只是用ios）
+		 	背景模糊backdrop-filter:blur(10px)
 
- 15、line-height属性的细节---一般在样式中设置line-height:1
- 	单位无符号的，动态计算行高，取子元素字体大小*倍数；
- 	单位有符号的，静态计算行高，取父元素字体大小*倍数；
- 	很好的博文：https://www.zhihu.com/question/20394889
+	 17、sticky footer 布局
+	 	http://www.w3cplus.com/css3/css-secrets/sticky-footers.html
 
- 16、模糊效果
- 	图片模糊filter:blur(10px)
- 	注意父级用overflow:hidden去掉多余阴影
- 	另一种模糊效果写法（只是用ios）
- 	背景模糊backdrop-filter:blur(10px)
+	 18、评分组件
 
- 17、sticky footer 布局
- 	http://www.w3cplus.com/css3/css-secrets/sticky-footers.html
+	 19、小标题带横线自适应问题
+		 	flex布局解决
+		 	flex布局
+		 	阮一峰flex布局教程
+		 	vue-loader编译时Postcss工具自动处理兼容性
+		 	Postcss工具根据 can i use(http://caniuse.com)官网写代码保证兼容 性
 
- 18、评分组件
+	 20、热更新失败原因：
+		 	热更新太慢--文件大；多按几次保存
+		 	webstorm特殊配置
+		 	文件路径
 
- 19、小标题带横线自适应问题
- 	flex布局解决
- 	flex布局
- 	阮一峰flex布局教程
- 	vue-loader编译时Postcss工具自动处理兼容性
- 	Postcss工具根据 can i use(http://caniuse.com)官网写代码保证兼容 性
+---------------------------------
+goods组件
+1、flex布局写固定宽的时候，也要给width防止安卓有兼容性问题
 
- 20、热更新失败原因：
- 	热更新太慢--文件大；多按几次保存
- 	webstorm特殊配置
- 	文件路径
+2、css样式中能用class尽量用，不要多用标签，，效率问题
 
- 	
+3、宁皓网
