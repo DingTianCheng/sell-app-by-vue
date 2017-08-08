@@ -30,6 +30,9 @@
     								<span class="nowPrice">￥<span>{{food.price}}</span></span>
     								<span class="oldPrice" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
     							</div>
+                  <div class="cartcontrol-wapper">
+                    <cartcontrol :food="food"></cartcontrol>
+                  </div>
     						</div>
     					</li>
     				</ul>
@@ -43,6 +46,7 @@
 <script>
     import BScroll from 'better-scroll';
     import shopcart from 'components/shopcart/shopcart';
+    import cartcontrol from 'components/cartcontrol/cartcontrol';
     export default{
     	props: {
     		seller: {
@@ -119,7 +123,8 @@
     		}
     	},
       components: {
-        shopcart
+        shopcart,
+        cartcontrol
       }
     };
 </script>
@@ -216,6 +221,7 @@
   			}
   			.content{
   				flex:1;
+          position:relative;
   				.name{
   					margin:2px 0px 8px 0;
   					height:14px;
@@ -261,6 +267,11 @@
 	  					text-decoration: line-through;
 	  				}
   				}
+          .cartcontrol-wapper{
+            position:absolute;
+            right: 0px;
+            bottom:0px;
+          }
   			}
   		}
   	}
