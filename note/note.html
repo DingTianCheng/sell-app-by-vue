@@ -122,9 +122,56 @@ goods组件
 		 网址：https://github.com/ustbhuangyi/better-scroll
 		 修复了iscroll问题；新增了功能
 		 也可以npm安装
+		 (1)better-scroll 需要操作dom 进行初始化
+		 	vue有自己的操作dom的方式
+		 (2)由于vue数据和dom的更新是异步的，也就是说
+		 数据更新的时候，dom无法及时更新，所以单纯初始化不管用
+		 需要用到this.$nextTick  更新dom
+			 this.$nextTick(() => {
+				this._initScroll();
+			});
+		 (3)probeType: 3 设置后，可以对一些事件进行处理
+			 this.foodsScroll = new BScroll(this.$els.foodsWapper, {
+	    				probeType: 3
+	    			});
+	    			this.foodsScroll.on('scroll', (pos) => {
+	    				this.scrollY = Math.abs(Math.round(pos.y));
+	    				// console.log(this.scrollY);
+	    			});
+    		 (4)默认屏蔽了一些事件和操作，当我们需要用相应操作时，需要开启
+	    		 this.meunScroll = new BScroll(this.$els.meunWapper, {
+	    				click: true
+	    			});
+
+	    	      这里还会产生另一个问题：
+	    	      	问题：pc端点击会触发两次
+	    	      	原因：pc没有默认屏蔽点击事件，所以会有原生点击事件和框架派发的点击事件两个事件
+	    	      	解决：自己派发的点击事件有一个_constructed属性，原生点击事件没有
+		    	      	selectMeun (index, event) {
+		    			if (!event._constructed) {//屏蔽原生事件
+		    				return;
+		    			}
+		    			console.log(index);
+		    		}
+		    		或者这样写更容易理解：
+			    		selectMeun (index, event) {
+			    			if (event._constructed) {
+			    				console.log(index);
+			    			}
+			    		}
 
 	 5、vue操作都dom的方式
-	 	在元素上定义：v-el:meun-wapper   
+	 	 在元素上定义：v-el:meun-wapper   
 	 		//注意此时命名只能用中划线，不能驼峰命名
-	 	vue用的时候：this.$els.meunWapper
+	 	 vue用的时候：this.$els.meunWapper
 	 		//此时可以驼峰命名
+		 操作dom的时候注意：（确保dom更新的）
+		 	 由于vue数据和dom的更新是异步的，也就是说
+			 数据更新的时候，dom无法及时更新，所以单纯初始化不管用
+			 需要用到this.$nextTick  更新dom
+				 this.$nextTick(() => {
+					this._initScroll();
+				});
+
+	 6、undefined is not a function
+	 	 一般是指调用这个函数的元素undefined

@@ -2,7 +2,7 @@
     <div class="goods">
     	<div class="menu-wapper" v-el:meun-wapper>
     		<ul>
-    			<li class="menu-item" v-for="item in goods">
+    			<li class="menu-item" :class="{'current':currentIndex===$index}"  v-for="item in goods" @click="selectMeun($index,$event)">
     				<span class="text">
     					<span class="icon" :class="classMap[item.type]" v-show="item.type>0"></span>
     					{{item.name}}
@@ -12,7 +12,7 @@
     	</div>
     	<div class="foods-wapper" v-el:foods-wapper>
     		<ul>
-    			<li class="food-list" v-for="item in goods">
+    			<li class="food-list food-list-hook" v-for="item in goods">
     				<h1 class="title">{{item.name}}</h1>
     				<ul>
     					<li class="food-item" v-for="food in item.foods">
@@ -49,8 +49,22 @@
     	},
     	data () {
     		return {
-    			goods: []
+    			goods: [],
+    			listHeight: [],
+    			scrollY: 0
     		};
+    	},
+    	computed: {
+    		currentIndex () {
+    			for (let i = 0; i < this.listHeight.length; i++) {
+    				let height1 = this.listHeight[i];
+    				let height2 = this.listHeight[i + 1];
+    				if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+    					return i;
+    				}
+    			}
+    			return 0;
+    		}
     	},
     	created () {
     		this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -64,14 +78,42 @@
 				// console.log(this.goods);
 				this.$nextTick(() => {
 					this._initScroll();
+					this._calculateHeight();
 				});
 			}
 		});
     	},
     	methods: {
 		_initScroll () {
-    			this.meunScroll = new BScroll(this.$els.meunWapper, {});
-    			this.foodsScroll = new BScroll(this.$els.foodsWapper, {});
+    			this.meunScroll = new BScroll(this.$els.meunWapper, {
+    				click: true
+    			});
+    			this.foodsScroll = new BScroll(this.$els.foodsWapper, {
+    				probeType: 3
+    			});
+    			this.foodsScroll.on('scroll', (pos) => {
+    				this.scrollY = Math.abs(Math.round(pos.y));
+    				// console.log(this.scrollY);
+    			});
+    		},
+    		_calculateHeight () {
+    			let foodList = this.$els.foodsWapper.getElementsByClassName('food-list-hook');
+    			let height = 0;
+    			this.listHeight.push(height);
+    			for (var i = 0; i < foodList.length; i++) {
+    				let item = foodList[i];
+    				height += item.clientHeight;
+    				this.listHeight.push(height);
+    			}
+    			// console.log(this.listHeight);
+    		},
+    		selectMeun (index, event) {
+    			if (event._constructed) {
+    				// console.log(index);
+    				let foodList = this.$els.foodsWapper.getElementsByClassName('food-list-hook');
+    				let el = foodList[index];
+    				this.foodsScroll.scrollToElement(el, 300);
+    			}
     		}
     	}
     };
@@ -96,6 +138,16 @@
   			width:80px;
   			line-height:14px;
   			font-size:12px;
+  			&.current{
+  				position:relative;
+  				z-index: 10;
+  				margin-top: -1px;
+  				background:#fff;
+  				font-weight:700;
+  				.text{
+  					border-bottom:none;
+  				}
+  			}
   			.text{
   				display:table-cell;
   				width:56px;
