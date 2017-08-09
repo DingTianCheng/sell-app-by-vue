@@ -39,7 +39,7 @@
     			</li>
     		</ul>
     	</div>
-      <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+      <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
     </div>
 </template>
 
@@ -70,7 +70,18 @@
     				}
     			}
     			return 0;
-    		}
+    		},
+           selectFoods () {
+              let selectFoods = [];
+              this.goods.forEach((good) => {
+                good.foods.forEach((food) => {
+                  if (food.count) {
+                    selectFoods.push(food);
+                  }
+                });
+              });
+              return selectFoods;
+           }
     	},
     	created () {
     		this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -95,6 +106,7 @@
     				click: true
     			});
     			this.foodsScroll = new BScroll(this.$els.foodsWapper, {
+                     click: true,
     				probeType: 3
     			});
     			this.foodsScroll.on('scroll', (pos) => {
@@ -220,8 +232,8 @@
   				margin-right:10px;
   			}
   			.content{
-  				flex:1;
-          position:relative;
+  				 flex:1;
+                      position:relative;
   				.name{
   					margin:2px 0px 8px 0;
   					height:14px;
@@ -241,7 +253,7 @@
   					span{
   						font-size:10px;
   						&.sellCount{
-  							margin-right:12px;
+  							 margin-right:12px;
   						}	
   					}
   				}
@@ -267,11 +279,11 @@
 	  					text-decoration: line-through;
 	  				}
   				}
-          .cartcontrol-wapper{
-            position:absolute;
-            right: 0px;
-            bottom:0px;
-          }
+                      .cartcontrol-wapper{
+                          position:absolute;
+                          right: 0px;
+                          bottom:-6px;
+                      }
   			}
   		}
   	}

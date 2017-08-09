@@ -6,6 +6,10 @@
  	8.18-8.19 完成项目的编译打包、项目总结、项目升级工作
  	8.20 项目备用时间
 
+以下采用vue1.0版本开发
+	 "vue": "^1.0.21",
+    	 "vue-router": "^0.7.13",
+    	 "vue-resource": "^1.0.1",
 --------------------------------------
 header组件
 	 1、重置样式 cssreset.com
@@ -113,7 +117,8 @@ header组件
 		 	webstorm特殊配置
 		 	文件路径
 
----------------------------------
+--------------------------------------
+
 goods组件
 	 1、flex布局写固定宽的时候，也要给width防止安卓有兼容性问题
 
@@ -191,5 +196,83 @@ goods组件
 					type: Number,
 					default: 0
 				}
-			}
-		vue中如果type为数组或对象，default则为函数
+			 }
+		 vue中如果type为数组或对象，default则为函数
+
+	 8、vue对一个观测对象添加不存在的属性时，直接向json一样添加是不管用的
+	 	 因为vue观察不到这个变化，
+	 	 所以在删除或添加属性时，需要特定的vue方法
+	 	 如：
+		 	addCart (event) {
+					if(event._constructed){
+						// console.log(1);
+						if (!this.food.count) {
+							this.food.count = 1;//不管用
+						} else {
+							this.food.count++;
+						}
+					}
+				}
+		 解决办法：
+			 引入vue:
+				 import Vue from 'vue';
+			 采用set方法定义属性：
+				 addCart (event) {
+					if (event._constructed) {
+						// console.log(1);
+						if (!this.food.count) {
+							Vue.set(this.food, 'count', 1);//set方法定义
+						} else {
+							this.food.count++;
+						}
+					}
+				 },
+
+	 9、vue1.0动画的使用
+		 注意点：
+		 （1）
+			 &.move-transition{//表示最终效果
+					opacity: 1;
+					transform: translate3D(0,0,0); 
+					.inner{
+						display:inline-block;
+						width:24px;
+						height:24px;
+						line-height:24px;
+						font-size:24px;
+						color:rgb(0,160,220);
+						transition: all 0.4s linear;
+						transform:rotate(0);
+					}
+				}
+			 &.move-enter,&.move-leave{//表示运动开始结束的效果
+				opacity: 0;
+				transform: translate3D(24px,0,0);
+				.inner{
+					transform:rotate(180deg);
+				}
+			 }
+		 （2）
+		 	 注意加上transition:all 0.5s ease;
+		 （3）
+		 	 如果有多种动画效果叠加，最好改变以下html结构，
+		 	 分别设置效果，只要都写在相应动画定义的地方就好了
+
+	 10、vue computed理解
+	 	 （1）computed可以设置属性、数据值等
+	 	 （2）vue中一般实现组件间的联动，
+	 	 	 或者组件内某个值或属性随另一个值或属性变化时，
+	 	 	 多用computed
+
+
+
+
+
+
+
+
+
+
+
+
+
