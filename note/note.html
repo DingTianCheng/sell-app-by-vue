@@ -1,3 +1,5 @@
+VUE2.0不可忽视的很多变化  http://www.cnblogs.com/dupd/p/5904109.html
+
 时间安排：
  	8.7-8.13 完成商品列表组件组开发工作
  	8.14-8.15 完成商品详情组件组开发工作
@@ -11,6 +13,7 @@
     	 "vue-router": "^0.7.13",
     	 "vue-resource": "^1.0.1",
 --------------------------------------
+
 header组件
 	 1、重置样式 cssreset.com
 
@@ -169,6 +172,7 @@ goods组件
 			    				console.log(index);
 			    			}
 			    		}
+		 (5)this.scroll.refresh();根据高进行更新
 
 	 5、vue操作都dom的方式
 	 	 在元素上定义：v-el:meun-wapper   
@@ -264,10 +268,94 @@ goods组件
 	 	 	 或者组件内某个值或属性随另一个值或属性变化时，
 	 	 	 多用computed
 
-	 11、this.$dispatch('cart.add',event.target);
-	 派发一个事件，把dom传出来
+	 11、购物车小球动画实现思路
+	 	 (1)获取小球运动的起始位置---》获取数量加按钮位置---》获取数量加按钮元素
+	 	 	 a.点击数量加按钮时，在addCart()方法中，派发一个事件，把dom传出来
+	 	 	 	 this.$dispatch('cart.add',event.target);//传给父组件
+	 	 	 b.父组件events事件管理---events中只能处理vue中的事件
+	 	 	  通过events监听子组件派发的事件，并调用自身方法_drop()将dom传递出去
+	 	 	   events: {
+				  'cart.add' (target) {
+				           this._drop(target);
+				    }
+			    }
+			 c.在父组件_drop()方法中，要实现调用子组件的属性和方法，需要用v-ref
+				 <shopcart v-ref:shopcart ></shopcart>
+				 _drop (target) {
+				            // 体验优化，异步执行下落动画
+				            this.$nextTick(() => {
+				              this.$refs.shopcart.drop(target);//调用子组件drop方法
+				            });
+	          			 }
+	          		 d. 在需要dom的子组件中，定义方法，操作dom 
+		          		 drop (el) {
+					// console.log(el);
+					for (let i = 0; i < this.balls.length; i++) {
+						let ball = this.balls[i];
+						if (!ball.show) {
+							ball.show = true;
+							ball.el = el;
+							this.dropBalls.push(ball);
+							return;
+						}
+					}
+				 }
+	 	 
+	 	 (2)由于动画只在开始时候存在，所以不能直接定义transition的class那种方法
+	 	 	 ---》采用 transitions定义的钩子函数解决
+	 	 	 ---》注意浏览器重绘是为了transform管用
+	 	 	 transitions: {
+				drop: {
+					beforeEnter (el) {
+						let count = this.balls.length;
+						while (count--) {
+							let ball = this.balls[count];
+							if (ball.show) {
+								let rect = ball.el.getBoundingClientRect();
+								let x = rect.left - 32;
+								let y = -(window.innerHeight - rect.top - 22);
+								el.style.display = '';
+								el.style.webkitTransform = `translate3d(0, ${y}px, 0)`;
+								el.style.transform = `translate3d(0, ${y}px, 0)`;
+								let inner = el.getElementsByClassName('inner-hook')[0];
+								inner.style.webkitTransform = `translate3d(${x}px, 0, 0)`;
+								inner.style.transform = `translate3d(${x}px, 0, 0)`;
+							}
+						};
+					},
+					enter (el) {
+						/* eslint-disable no-unused-vars */
+						let rf = el.offsetHeight;
+						this.$nextTick(() => {
+							el.style.webkitTransform = 'translate3d(0, 0, 0)';
+							el.style.transform = 'translate3d(0, 0, 0)';
+							let inner = el.getElementsByClassName('inner-hook')[0];
+							inner.style.webkitTransform = 'translate3d(0, 0, 0)';
+							inner.style.transform = 'translate3d(0, 0, 0)';
+						});
+					},
+					afterEnter (el) {
+						let ball = this.dropBalls.shift();
+						if (ball) {
+							ball.show = false;
+							el.style.display = 'none';
+						}
+					}
+				}
+			}
 
-	 父组件访问子组件 v-ref
+
+	 	 (3)cubic-bezier选择网站 http://cubic-bezier.com/#.17,.67,.83,.67
+
+	 	 (4)为了防止多种动画触发时的卡顿，传递dom时应该在添加dom更新后再传递
+
+	 12、window.alert(`支付${this.totalPrice}元`);
+
+	 13、阻止冒泡和默认事件
+	 	 @click.stop.prevent="pay"
+
+
+	
 
 
 
