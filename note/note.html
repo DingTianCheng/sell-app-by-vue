@@ -280,6 +280,7 @@ goods组件
 				    }
 			    }
 			 c.在父组件_drop()方法中，要实现调用子组件的属性和方法，需要用v-ref
+			 	 ---父组件可以调用子组件方法，子组件不可以调用父组件方法
 				 <shopcart v-ref:shopcart ></shopcart>
 				 _drop (target) {
 				            // 体验优化，异步执行下落动画
@@ -353,6 +354,36 @@ goods组件
 
 	 13、阻止冒泡和默认事件
 	 	 @click.stop.prevent="pay"
+
+------------------------------------------------------------------------------------------------------------
+
+商品详情页组件food
+
+1、命名规范
+	可以被外部调用的方法直接命名，如show();
+	只能组件内部调用的方法，带下划线命名，如_show();
+2、网页头图的实现技巧
+	 <div class="image-header">
+		 <img :src="food.image" alt="" />
+	 </div>
+	 问题：直接设置图片高度不行，因为图片宽度受屏幕宽度的影响，
+		 高度也应该做出相应的改变；
+		 不设置高度，会随网络情况改变下面网页布局，出现闪动，不太好
+	 解决：
+		 核心：padding-top:100%; 此时padding和宽度相等
+		 .image-header{
+			 position:relative;
+			 width:100%;
+			 height: 0;
+			 padding-top:100%;
+			 img{
+				 position:absolute;
+				 top:0px;
+				 left:0px;
+				 width:100%;
+				 height:100%;
+			 }
+		 } 
 
 
 	
