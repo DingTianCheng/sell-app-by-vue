@@ -1,10 +1,10 @@
 <template>
 	<div class="cartcontrol">
-		<div class="cart-decrease" v-show="food.count>0" @click="decreaseCart($event)" transition="move">
+		<div class="cart-decrease" v-show="food.count>0" @click.stop.prevent="decreaseCart($event)" transition="move">
 			<span class="inner iconfont icon-jianhao"></span>
 		</div>
 		<div class="cart-count" v-show="food.count>0">{{food.count}}</div>
-		<div class="cart-add iconfont icon-jiahao" @click="addCart($event)"></div>
+		<div class="cart-add iconfont icon-jiahao" @click.stop.prevent="addCart($event)"></div>
 	</div>
 </template>
 
