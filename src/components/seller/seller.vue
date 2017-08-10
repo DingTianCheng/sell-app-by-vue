@@ -1,5 +1,5 @@
 <template>
-    <div class="seller">
+    <div class="seller" v-el:seller>
     	<div class="seller-content">
     		<div class="overview">
     			<h1 class="title">{{seller.name}}</h1>
@@ -28,6 +28,10 @@
     					</div>
     				</li>
     			</ul>
+    			<div class="favorite" @click="toggleFavorite">
+    				<span class="iconfont" :class="{'icon-xin-':favorite===true,'icon-xin':favorite===false}"></span>
+    				<span class="text">{{favoriteText}}</span>
+    			</div>
     		</div>
     		<split></split>
     		<div class="bulletin">
@@ -37,14 +41,31 @@
     			</div>
     		</div>
     		<div class="detail-msg-wapper">
-			<ul v-if="seller.supports" class="detail-msg">
-				<li class="detail-msg-item" v-for="item in seller.supports">
-					<span class="detail-msg-item-icon" :class="classMap[seller.supports[$index].type]"></span>
-					<span class="detail-msg-item-text">{{seller.supports[$index].description}}</span>
-				</li>
-			</ul>
-		</div>
-		<split></split>
+				<ul v-if="seller.supports" class="detail-msg">
+					<li class="detail-msg-item" v-for="item in seller.supports">
+						<span class="detail-msg-item-icon" :class="classMap[seller.supports[$index].type]"></span>
+						<span class="detail-msg-item-text">{{seller.supports[$index].description}}</span>
+					</li>
+				</ul>
+			</div>
+			<split></split>
+			<div class="pics">
+				<h1 class="title">商家实景</h1>
+				<div class="pic-wrapper" v-el:pic-wrapper>
+					 <ul class="pic-list" v-el:pic-list>
+					 	<li class="pic-item" v-for="pic in seller.pics">
+					 		<img width="120" height="90" :src="pic" alt="" />
+					 	</li>
+					 </ul>
+				</div>
+			</div>
+			<split></split>
+			<div class="info">
+				<h1 class="title">商家信息</h1>
+				<ul>
+					<li class="info-item" v-for="info in seller.infos">{{info}}</li>
+				</ul>
+			</div>
     	</div>
     </div>
 </template>
@@ -59,9 +80,54 @@
     			type: Object
     		}
     	},
+    	data () {
+    		return {
+    			favorite: false
+    		};
+    	},
+    	computed: {
+    		favoriteText () {
+    			return this.favorite ? '收藏' : '未收藏';
+    		}
+    	},
+    	methods: {
+    		toggleFavorite (event) {
+    			if (event._constructed){
+    				this.favorite = !this.favorite;
+    			}
+    		}
+    	},
     	created () {
 		this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-	},
+		},
+		ready () {
+			this.$nextTick(() => {
+				if (!this.scroll) {
+					this.scroll = new BScroll(this.$els.seller, {
+						click: true
+					});
+				} else {
+					this.scroll.refresh();
+				}
+			});
+			if (this.seller.pics) {
+				let picWidth = 120;
+				let margin = 6;
+				let width = (picWidth + margin) * this.seller.pics.length - margin;
+				this.$els.picList.style.width = width + 'px';
+				this.$nextTick(() => {
+					if (!this.scroll2) {
+						this.scroll2 = new BScroll(this.$els.picWrapper, {
+							click: true,
+							scrollX: true,
+							eventPassthrough: 'vertical'
+						});
+					} else {
+						this.scroll2.refresh();
+					}
+				});
+			}
+		},
     	components: {
     		split,
     		star
@@ -76,8 +142,9 @@
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
-	overview:hidden;
+	overflow:hidden;
 	.overview{
+		position:relative;
 		padding: 18px;
 		.title{
 			margin-bottom:8px;
@@ -129,6 +196,28 @@
 				}
 			}
 		}
+		.favorite{
+			position:absolute;
+			top:18px;
+			right:18px;
+			width:36px;
+			font-size:0px;
+			text-align: center;
+			.iconfont{
+				display:block;
+				line-height:24px;
+				font-size:24px;
+				color:rgb(240,20,20);
+				margin-bottom:4px;
+			}
+			.text{
+				display:block;
+				width:100%;
+				line-height:10px;
+				font-size:10px;
+				color:rgb(77,85,93);
+			}
+		}
 	}
 	.bulletin{
 		padding:18px 18px 0px 18px;
@@ -136,7 +225,7 @@
 			margin-bottom:8px;
 			line-height: 14px;
 			color: rgb(7,17,27);
-			font-size: 14px;	
+			font-size: 14px;
 		}
 		.content-wrapper{
 			padding:0px 12px 16px 12px;
@@ -162,6 +251,7 @@
 			 	vertical-align: top;
 			 	width: 12px;
 			 	height: 12px;
+			 	line-height: 12px;
 				 &.decrease{
 				 	background: url(images/decrease_3@2x.png) 0px 0px no-repeat;
 				 	background-size: 12px 12px;
@@ -184,9 +274,59 @@
 				 }
 			}
 			.detail-msg-item-text{
+				display: inline-block;
+			 	vertical-align: top;
 				margin-left: 4px;
+				margin-top: 2px;
+				height: 12px;
 			 	line-height: 12px;
 			 	font-size: 10px;
+			}
+		}
+	}
+	.pics{
+		padding:18px;
+		.title{
+			margin-bottom:12px;
+			line-height: 14px;
+			color: rgb(7,17,27);
+			font-size: 14px;
+		}
+		.pic-wrapper{
+			width:100%;
+			overflow:hidden;
+			white-space: nowrap;
+			.pic-list{
+				font-size:0px;
+				.pic-item{
+					display:inline-block;
+					margin-right:6px;
+					width:120px;
+					height:90px;
+					&:nth-last-child(1){
+						margin-right:0px;
+					}
+				}
+			}
+		}
+	}
+	.info{
+		padding:18px 18px 0px 18px;
+		.title{
+			padding-bottom:12px;
+			line-height: 14px;
+			color: rgb(7,17,27);
+			font-size: 14px;
+			border-bottom:1px solid rgba(7,17,27,0.1);
+		}
+		.info-item{
+			padding:16px 12px;
+			line-height:16px;
+			border-bottom:1px solid rgba(7,17,27,0.1);
+			font-size:12px;
+			color: rgb(7,17,27);
+			&:nth-last-child(1){
+				border-bottom:none;
 			}
 		}
 	}

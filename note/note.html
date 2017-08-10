@@ -186,6 +186,21 @@ goods组件
 			    			}
 			    		}
 		 (5)this.scroll.refresh();根据高进行更新
+			 this.$nextTick(() => {
+				if (!this.scroll) {
+					this.scroll = new BScroll(this.$els.seller, {
+						click: true
+					});
+				} else {
+					this.scroll.refresh();
+				}
+			 });
+		(6)
+				this.scroll2 = new BScroll(this.$els.picWrapper, {
+					click: true,
+					scrollX: true, //横向滚动，默认纵向滚动
+					eventPassthrough: 'vertical'//横向滚动的时候不再纵向滚动
+				});
 
 	 5、vue操作都dom的方式
 	 	 在元素上定义：v-el:meun-wapper   
@@ -411,8 +426,15 @@ goods组件
 		 export function a (date, fmt) {
 			};
 
+---------------------------------------
 
-
+商家详情页组件seller
+1、图片列表不换行显示
+	 ---white-space: nowrap;
+2、window.location.search
+	"?id=12345&a=b"
+3、获取不同商家商品信息
+	 ---通过返回url的id与后端沟通
 
 ===================
 router.go('/goods');
