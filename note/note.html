@@ -135,6 +135,19 @@ goods组件
 		 也可以npm安装
 		 谷歌浏览器模拟器不能滚动 解决办法chrome://flags/#enable-pointer-events
 		 但是这种解决办法与zepto滑动事件冲突
+		 使用条件：html结构两层嵌套，里层相对外层运动;
+		 		外层有固定高度，注意绝对定位产生固定高的技巧可以运用:
+		 		 position: absolute;
+				 top:174px;
+				 bottom: 0px;
+				 left: 0px;
+				 width: 100%;
+				 overview:hidden;
+				  <div class="seller">
+				    	<div class="seller-content">
+				    		
+				    	</div>
+				    </div>
 		 (1)better-scroll 需要操作dom 进行初始化
 		 	vue有自己的操作dom的方式
 		 (2)由于vue数据和dom的更新是异步的，也就是说
@@ -359,44 +372,44 @@ goods组件
 
 商品详情页组件food
 
-1、命名规范
-	可以被外部调用的方法直接命名，如show();
-	只能组件内部调用的方法，带下划线命名，如_show();
-2、网页头图的实现技巧
-	 <div class="image-header">
-		 <img :src="food.image" alt="" />
-	 </div>
-	 问题：直接设置图片高度不行，因为图片宽度受屏幕宽度的影响，
-		 高度也应该做出相应的改变；
-		 不设置高度，会随网络情况改变下面网页布局，出现闪动，不太好
-	 解决：
-		 核心：当设置padding-top:100%时，此时容器的padding和宽度相等
-		 .image-header{
-			 position:relative;
-			 width:100%;
-			 height: 0;
-			 padding-top:100%;
-			 img{
-				 position:absolute;
-				 top:0px;
-				 left:0px;
+	 1、命名规范
+		可以被外部调用的方法直接命名，如show();
+		只能组件内部调用的方法，带下划线命名，如_show();
+	 2、网页头图的实现技巧
+		 <div class="image-header">
+			 <img :src="food.image" alt="" />
+		 </div>
+		 问题：直接设置图片高度不行，因为图片宽度受屏幕宽度的影响，
+			 高度也应该做出相应的改变；
+			 不设置高度，会随网络情况改变下面网页布局，出现闪动，不太好
+		 解决：
+			 核心：当设置padding-top:100%时，此时容器的padding和宽度相等
+			 .image-header{
+				 position:relative;
 				 width:100%;
-				 height:100%;
-			 }
-		 } 
+				 height: 0;
+				 padding-top:100%;
+				 img{
+					 position:absolute;
+					 top:0px;
+					 left:0px;
+					 width:100%;
+					 height:100%;
+				 }
+			 } 
 
-3、子组件向父组件通信
-	 子组件 this.$dispatch('ratingtype.select', type);
-	 父组件 events里面监听这些子组件派发的事件
+	 3、子组件向父组件通信
+		 子组件 this.$dispatch('ratingtype.select', type);
+		 父组件 events里面监听这些子组件派发的事件
 
-4、es6 模块化引入js---函数function
-	 import {formatDate,a} from 'common/js/date.js';
-	 //这样可以引入多个函数
-	 
-	 export function formatDate (date, fmt) {
-		};
-	 export function a (date, fmt) {
-		};
+	 4、es6 模块化引入js---函数function
+		 import {formatDate,a} from 'common/js/date.js';
+		 //这样可以引入多个函数
+		 
+		 export function formatDate (date, fmt) {
+			};
+		 export function a (date, fmt) {
+			};
 
 
 
