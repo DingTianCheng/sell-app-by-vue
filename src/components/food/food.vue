@@ -33,6 +33,24 @@
 			<div class="rating">
 				<h1 class="title">商品评价</h1>
 				<ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+				<div class="rating-wapper">
+					<ul v-show="food.ratings && food.ratings.length">
+						<li class="rating-item" v-for="rating in food.ratings" v-show="needShow(rating.rateType,rating.text)">
+							<div class="user">
+								<span class="name">{{rating.username}}</span>
+								<img class="avatar" width="12" height="12" :src="rating.avatar" alt="" />
+							</div>
+							<div class="time">{{rating.rateTime | formatDate}}</div>
+							<div class="text">
+								<span class="iconfont" :class="{ 'icon-ding':rating.rateType===0,'icon-cai':rating.rateType===1 }"></span>
+								{{rating.text}}
+							</div>
+						</li>
+					</ul>
+					<div class="no-rating" v-show="!food.ratings || !food.ratings.length">
+						暂无评价
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -44,6 +62,7 @@
 	import Vue from 'vue';
 	import split from 'components/split/split';
 	import ratingselect from 'components/ratingselect/ratingselect';
+	import {formatDate} from 'common/js/date.js';
 	// const POSITIVE = 0;
 	// const NEGATIVE = 1;
 	const ALL = 2;
@@ -88,6 +107,36 @@
 					this.$dispatch('cart.add', event.target);
 					Vue.set(this.food, 'count', 1);
 				}
+			},
+			needShow (type, text) {
+				if (this.onlyContent && !text) {
+					return false;
+				}
+				if (this.selectType === ALL) {
+					return true;
+				} else {
+					return type === this.selectType;
+				}
+			}
+		},
+		events: {
+			'ratingtype.select' (type) {
+				this.selectType = type;
+				this.$nextTick(() => {
+					this.scroll.refresh();
+				});
+			},
+			'content.toggle' (onlyContent) {
+				this.onlyContent = onlyContent;
+				this.$nextTick(() => {
+					this.scroll.refresh();
+				});
+			}
+		},
+		filters: {
+			formatDate (time) {
+				let date = new Date(time);
+				return formatDate(date, 'yyyy-MM-dd hh:mm');
 			}
 		},
 		components: {
@@ -226,6 +275,58 @@
 			margin-left:18px;
 			font-size:14px;
 			color:rgb(7,17,27);
+		}
+		.rating-wapper{
+			margin:0 18px;
+			.rating-item{
+				position:relative;
+				padding:16px 0;
+				border-bottom:1px solid rgba(7,17,27,0.1);
+				.user{
+					position:absolute;
+					right:0px;
+					top:16px;
+					line-height:12px;
+					font-size:0px;
+					.name{
+						display:inline-block;
+						vertical-align: top;
+						margin-right:6px;
+						font-size:10px;
+						color:rgb(147,153,159);
+					}
+					.avatar{
+						border-radius:50%;
+					}
+				}
+				.time{
+					line-height:12px;
+					margin-bottom:6px;
+					font-size:10px;
+					color:rgb(147,153,159);
+				}
+				.text{
+					line-height:16px;
+					font-size:12px;
+					color:rgb(7,17,27);
+					.iconfont{
+						margin-right:4px;
+						line-height:24px;
+						font-size:12px;
+						&.icon-ding{
+							color:rgb(0,160,220);
+						}
+						&.icon-cai{
+							color:rgb(147,153,159);
+						}
+					}
+				}	
+			}
+			.no-rating{
+				padding:16px 0;
+				font-size:12px;
+				color:rgb(147,153,159);
+			}
 		}
 	}
 }

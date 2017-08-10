@@ -387,6 +387,16 @@ goods组件
 
 3、子组件向父组件通信
 	 子组件 this.$dispatch('ratingtype.select', type);
+	 父组件 events里面监听这些子组件派发的事件
+
+4、es6 模块化引入js---函数function
+	 import {formatDate,a} from 'common/js/date.js';
+	 //这样可以引入多个函数
+	 
+	 export function formatDate (date, fmt) {
+		};
+	 export function a (date, fmt) {
+		};
 
 
 
