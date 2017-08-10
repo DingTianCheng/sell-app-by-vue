@@ -57,7 +57,7 @@
 	div.star-48 span.off{ background: url(images/star48_off@2x.png) 0px 0px no-repeat;background-size:20px 20px; }
 
 	div.star-36{  }	
-	div.star-36 span.star-item{ width: 15px;height: 15px;margin-right: 16px;background-size: 15px 15px; }
+	div.star-36 span.star-item{ width: 15px;height: 15px;margin-right: 8px;background-size: 15px 15px; }
 	div.star-36 span.star-item:nth-last-child(1){ margin-right: 0px; }
 	div.star-36 span.on{ background: url(images/star36_on@2x.png) 0px 0px no-repeat;background-size:15px 15px; }	
 	div.star-36 span.half{ background: url(images/star36_half@2x.png) 0px 0px no-repeat;background-size:15px 15px; }	
