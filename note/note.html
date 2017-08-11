@@ -433,8 +433,39 @@ goods组件
 	 ---white-space: nowrap;
 2、window.location.search
 	"?id=12345&a=b"
-3、获取不同商家商品信息
-	 ---通过返回url的id与后端沟通
+3、获取不同商家商品信
+	 -----通过返回url的id与后端沟通,,需要借助自定义函数获取id
+	 (1)将获取到的id通过以下请求传给后台
+		 this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
+		      // console.log(response);
+		      response = response.body;
+		      const ERR_OK = 0;
+		      if (response.errno === ERR_OK) {
+		        this.seller = response.data;
+		        // console.log(this.seller);
+		      }
+		    });
+		  }
+		  (2)但是这样传送给后台后，我们的this.seller属性会变成response.data，没有了id属性
+		  	解决：
+		  	 this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
+			      // console.log(response);
+			      response = response.body;
+			      const ERR_OK = 0;
+			      if (response.errno === ERR_OK) {
+			        // this.seller = response.data;
+			        this.seller = Object.assign({}, this.seller, response.data);
+			        console.log(this.seller.id);
+			      }
+			  });
+  			 }
+  			 原理：Object.assign()方法
+  			 	https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+  			 	借助该方法，使后台传来的数据和id属性一起拼接到this.seller中
+
+4、收藏功能的缓存
+	 eslint语法检查中不能直接写localStorage
+	 let seller = window.localStorage.__seller__;
 
 ===================
 router.go('/goods');

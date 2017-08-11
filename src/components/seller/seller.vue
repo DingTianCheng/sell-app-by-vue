@@ -70,10 +70,11 @@
     </div>
 </template>
 
-<script type="ecmascript-6">
+<script>
     import split from 'components/split/split';
     import star from 'components/star/star';
     import BScroll from 'better-scroll';
+    import {saveToLocal, loadFromLocal} from 'common/js/store';
     export default {
     	props: {
     		seller: {
@@ -82,7 +83,7 @@
     	},
     	data () {
     		return {
-    			favorite: false
+    			favorite: loadFromLocal(this.seller.id, 'favorite', false)
     		};
     	},
     	computed: {
@@ -92,8 +93,10 @@
     	},
     	methods: {
     		toggleFavorite (event) {
-    			if (event._constructed){
+    			if (event._constructed) {
     				this.favorite = !this.favorite;
+    				// console.log(this.seller.id);
+    				saveToLocal(this.seller.id, 'favorite', this.favorite);
     			}
     		}
     	},
