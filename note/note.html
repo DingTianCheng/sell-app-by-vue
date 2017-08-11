@@ -479,6 +479,48 @@ goods组件
 	 	  解决方法：
 	 	  	 <router-view :seller="seller" keep-alive></router-view>
 
+----------------------------------------------------------
+
+项目打包：
+	 (1)  npm run build  打包
+
+		 生成dist文件夹，
+		 里面包括index.html文件和static文件夹
+		 static文件夹/js/app.js         项目js
+		 static文件夹/js/manifest.js  阻止hash更新，如果vendor没变化
+		 static文件夹/js/vendor.js     第三方各种插件js
+	 (2)  http server 运行打包好的文件
+	 	这里不能启动静态server,
+	 	因为有后端api接口，就需要express开启小型服务器
+	 		prod.server.js   port
+	 		node prod.server.js
+	 		localhost:9000/?id=123
+
+	 (3) 以上过程还开启着调试模式，可以关闭
+	 	config/index.js  productionSourceMap:true  改成 false
+	 	再重新编译运行 
+	 	就少了.map文件
+
+
+
+
+------------------------------------------------------------------
+
+项目总结：
+	 1、参考资料：
+		 Vue.js         		https://vuejs.org.cn/
+		 Vue-cli        		https://github.com/vuejs/vue-cli
+		 Vue-resource	https://github.com/vuejs/vue-resource
+		 Vue-router		https://github.com/vuejs/vue-router
+		 better-scroll		https://github.com/ustbhuangyi/better-scroll
+		 webpack		https://webpack.github.io/
+		 Stylus中文文档       http://www.zhangxinxu.com/jq/stylus/
+		 es6入门学习	http://es6.ruanyifeng.com/
+		 eslint规则		http://eslint.org/docs/rules/
+		 设备像素比             http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
+		 flex布局		
+		 贝塞尔曲线测试      http://cubic-bezier.com/
+
 ===================
 router.go('/goods');
 
