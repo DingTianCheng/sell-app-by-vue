@@ -1,13 +1,5 @@
 VUE2.0不可忽视的很多变化  http://www.cnblogs.com/dupd/p/5904109.html
 
-时间安排：
- 	8.7-8.13 完成商品列表组件组开发工作
- 	8.14-8.15 完成商品详情组件组开发工作
- 	8.16 完成ratings评价组件组的开发工作
- 	8.17 完成商家详情组件组的开发工作
- 	8.18-8.19 完成项目的编译打包、项目总结、项目升级工作
- 	8.20 项目备用时间
-
 以下采用vue1.0版本开发
 	 "vue": "^1.0.21",
     	 "vue-router": "^0.7.13",
@@ -520,9 +512,100 @@ goods组件
 		 设备像素比             http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
 		 flex布局		
 		 贝塞尔曲线测试      http://cubic-bezier.com/
+	 2、eslint 忽略语法检查可以采用注释的方式
+	 例如：/* eslint-disable no-new */
 
-===================
-router.go('/goods');
+-------------------------------
+vue1.0  升级  vue2.0 几个项目代码重要的变化
+	 1、配置文件的更改
+	 	build
+	 	config
+	 	package.json
+
+	 2、vue路由
+
+	 3、引入组件变化
+	 	new Vue({
+		  el: '#app',
+		  router,
+		  render: h => h(App)
+		});
+
+	 4、v-for 变化
+	 	 <span v-for="(itemClass,index) in itemClasses" key="index"></span>
+	 	 没了$index  key代替track-by
+
+	 5、v-el v-ref统统用 ref替代
+	 	 v-el寻找某个dom元素
+	 	 v-ref寻找某个组件
+	 	  <food @add="addFood" :food="selectedFood" ref="food"></food>
+	 	  this.$refs.food.show();
+
+	 6、模板的变化，组件只允许一个根元素
+
+	 7、组件通信变化---$dispatch废除
+	 	 $dispatch是子组件向父组件进行冒泡，把事件一层层冒出去
+			子组件派发事件：this.$dispatch('cart.add', event.target);
+			父组件events事件监听派发的事件
+	 	 $emit
+		 	 子组件发送事件：this.$emit('add', event.target);
+		 	 父组件在相应组件元素上事件监听，定义方法
+		 	 	<food @add="addFood" :food="selectedFood" ref="food"></food>
+
+	 8、事件监听变化---废除events属性
+
+	 9、不能在子组件中直接修改父组件传入的prop
+	 	例如：ratingselect组件，改变selectType,onlyContent等
+	 	可以用计算属性，data等替代，
+	 	或结合$emit，在父组件改变
+
+	 10、过渡的变化，transition组件；
+		 以前：
+		 <div class="detail" v-show="detailShow" transition="fade"></div>
+		 	.fade-transition{
+				opacity: 1;
+				background: rgba(7,17,27,0.8);
+			}
+			.fade-enter,.fade-leave{
+				opacity: 0;
+				background: rgba(7,17,27,0);
+			}
+		 现在：
+		 	变成了组件<transition name="fade"></transition>
+		 	  &.fade-enter-active, &.fade-leave-active
+		        transition: all 0.5s
+		      &.fade-enter, &.fade-leave-active
+		        opacity: 0
+		        background: rgba(7, 17, 27, 0)
+
+	 11、小球下落动画变化的实现；
+	 	以前是transitions钩子函数，2.0就没有了
+	 	现在是在transition组件上定义事件，但是方法上会有一个done回调函数参数，
+	 					为了是告诉vue动画结束了，可以执行接下来操作了
+	 	el.addEventListener('transitionend', done);
+	 	 <transition name="drop" @before-enter="beforeDrop" @enter="dropping" @after-enter="afterDrop">
+            <div class="ball" v-show="ball.show">
+              <div class="inner inner-hook"></div>
+            </div>
+          </transition>
+         另外，还提供了<transition-group>列表过渡
+
+	 12、keep-alive属性变化为<keep-alive></keep-alive>组件
+	 	原来：
+	    	<router-view :seller="seller" keep-alive></router-view>
+	    现在：
+		 	<keep-alive>
+		      <router-view :seller="seller"></router-view>
+		    </keep-alive>
+
+
+	 13、
+
+	 14、
+
+	 15、
+
+
 
 
 
